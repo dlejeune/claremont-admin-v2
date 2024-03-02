@@ -8,6 +8,7 @@ class Scout(models.Model):
     last_name = models.CharField(max_length=200)
     ssa_id = models.CharField(max_length=200)
     dob = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -16,8 +17,8 @@ class Scout(models.Model):
         today = datetime.now()
         return today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
 
-    def patrol(self):
-        return self.patrols.all().first().patrol.name
+    def patrol_member(self):
+        return self.patrols.all().order_by("-start_date").first()
 
     class Config:
         arbitrary_types_allowed = True

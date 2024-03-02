@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Scout
-from .forms import ScoutForm
+from .scout_forms import ScoutForm
+
+
+def scout_home(request):
+    return render(request, 'scout_home.html')
+
 
 def add_scout(request):
     if request.method == 'POST':
@@ -12,9 +17,11 @@ def add_scout(request):
         form = ScoutForm()
     return render(request, 'add_scout.html', {'form': form})
 
+
 def view_all_scouts(request):
     scouts = Scout.objects.all()
-    return render(request, 'view_all_scouts.html', {'scouts': scouts})
+    return render(request, 'scouts_list.html', {'scouts': scouts})
+
 
 def edit_scout(request, scout_id):
     scout = get_object_or_404(Scout, id=scout_id)
@@ -26,6 +33,7 @@ def edit_scout(request, scout_id):
     else:
         form = ScoutForm(instance=scout)
     return render(request, 'edit_scout.html', {'form': form})
+
 
 def delete_scout(request, scout_id):
     scout = get_object_or_404(Scout, id=scout_id)
